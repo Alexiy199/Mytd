@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+	@@include('./html/head.html', {
+		"title": "MyToDo"
+	})
+<body>
+	@@include('./html/header.html')
+	<main class="main">
+		<section class="main__container-wrap container-wrap">
+			<div class="main__block-content">
+				<div class="main__content-item" data-listitem="custom-day">
+					<p class="main__title-item">Go to shop</p>
+					<p class="main__txt-item"></p>
+					<div class="box-burger">
+						<div class="burger"></div>
+						<div class="menu-brg">
+							<ul>
+								<li class="time_elem"> время </li>
+								<li class="later_elem"> <i class="_icon-later"></i> отложить </li>
+								<li class="done_elem"> <i class="_icon-done"></i> завершить </li>
+								<li class="del_elem"> <i class="_icon-delete"></i> удалить </li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="main__content-item" data-listitem="every-day">
+					<p class="main__title-item">Go to shop</p>
+					<p class="main__txt-item">
+						Lorem ipsum dolor sit amet...
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam eveniet culpa nisi.
+						Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur quam sit totam? <br>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit dolores earum beatae.
+					</p>
+					<div class="box-burger">
+						<div class="burger"></div>
+						<div class="menu-brg">
+							<ul>
+								<li class="time_elem"> время </li>
+								<li class="later_elem"> <i class="_icon-later"></i> отложить </li>
+								<li class="done_elem"> <i class="_icon-done"></i> завершить </li>
+								<li class="del_elem"> <i class="_icon-delete"></i> удалить </li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	@@include('./html/footer.html')
+	<script src="js/app.min.js"></script>
+</body>
+</html>
