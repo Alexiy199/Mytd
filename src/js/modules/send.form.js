@@ -18,53 +18,62 @@ export function sendForm(
   event,
   form,
   url,
-  showLoiading,
+  showLoading,
   output,
-  containerList
+  containerList,
+  currentList
 ) {
   event.preventDefault();
 
-  const msgErr = document.querySelector(".msg-error");
+  const msgErr = document.querySelector(".msg-error"),
+    msgOk = document.querySelector(".msg-ok"),
+    oldPreview = document.querySelector(".box-preview");
+
+  // если есть старое превью, удаляем его
+  if (oldPreview !== null) oldPreview.remove();
+
   if (msgErr !== null) msgErr.remove();
 
-  showLoiading(form, "show");
+  if (msgOk !== null) msgOk.remove();
+
+  showLoading(form, "show");
 
   const formData = new FormData(form);
 
   sendRequest("POST", url, formData)
     .then((responseData) => {
-      if (responseData?.msg === "sent") {
+      if (responseData.msg === "sent") {
         //console.log(responseData.msg);
         form.reset();
         form.insertAdjacentHTML(
-          "afterend",
-          `<sapan class="msg-ok">Отправлено !</sapan>`
+          "afterbegin",
+          `<span class="msg-ok">Отправлено !</span>`
         );
 
         // вывод отправленного элемента
         if (output !== null) {
           console.log(responseData);
-          output([responseData.element], containerList);
+          output([responseData.element], containerList, currentList);
 
           // Стираем текст: "Пока ничего нет".
           const emptyTxt = containerList.querySelector(".empty_txt");
           if (emptyTxt !== null) emptyTxt.remove();
         }
 
-        showLoiading(form, "close");
+        showLoading(form, "close");
       } else if (responseData?.msgErr) {
-        showLoiading(form, "close");
+        showLoading(form, "close");
         form.insertAdjacentHTML(
-          "afterend",
-          `<sapan class="msg-error">${responseData?.msgErr}</sapan>`
+          "afterbegin",
+          `<span class="msg-error">${responseData?.msgErr}</span>`
         );
       }
     })
     .catch((error) => {
-      showLoiading(form, "close");
+      showLoading(form, "close");
       form.insertAdjacentHTML(
-        "afterend",
-        `<sapan class="msg-error">Ошибка !</sapan>`
+        "afterbegin",
+        `<span class="msg-error">Ошибка ! ( ${error} )</span>`
       );
       console.error(`Ошибуля! ${error}`);
     });

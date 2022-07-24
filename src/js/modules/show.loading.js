@@ -1,6 +1,6 @@
 // Show loading
 
-export function showLoiading(form, action) {
+export function showLoading(form, action) {
   const btn = form.querySelectorAll("button");
 
   if (action === "show") {
@@ -13,7 +13,12 @@ export function showLoiading(form, action) {
     form.insertAdjacentHTML(
       "afterbegin",
       `<div class="cover-loading">
-		  <span class="txt-loading">Загрузка...</span>
+			<div class="circle-loading" id="circle-load-1">
+				<div class="circle-loading" id="circle-load-2">
+					
+				</div>
+			</div>
+			<span class="txt-loading">mytd</span>
 	  </div>`
     );
   } else if (action === "close") {

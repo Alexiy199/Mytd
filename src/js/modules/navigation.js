@@ -17,7 +17,7 @@ export function switchList(
   sendRequest,
   outputList,
   containerList,
-  showLoiading
+  showLoading
 ) {
   for (let i = 0; buttons.length > i; i++) {
     if (buttons[i].className === "footer__menu-item active-list") {
@@ -31,29 +31,33 @@ export function switchList(
   listElements = Array.from(listElements);
 
   for (let i = 0; listElements.length > i; i++) {
+    // Пропускаем глаз
+    if (listElements[i].id === "eye") continue;
+
+    // Очищаем блок
     listElements[i].remove();
   }
 
   //--------------------------------
 
-  showLoiading(containerList, "show");
+  showLoading(containerList, "show");
 
   if (typeElement === "tasks") {
     titleList.innerText = "задачи";
     sendRequest("GET", "./ctrl/index_ctrl.php/?list=tasks")
       .then((responseData) => {
         if (responseData?.tasks) {
-          outputList(responseData.tasks, containerList);
+          outputList(responseData.tasks, containerList, typeElement);
         } else {
           containerList.insertAdjacentHTML(
             "afterbegin",
             `<span class="msg-error">Ошибка !</span>`
           );
         }
-        showLoiading(containerList, "close");
+        showLoading(containerList, "close");
       })
       .catch((error) => {
-        showLoiading(containerList, "close");
+        showLoading(containerList, "close");
         containerList.insertAdjacentHTML(
           "afterbegin",
           `<span class="msg-error">Ошибка !</span>`
@@ -74,17 +78,17 @@ export function switchList(
       .then((responseData) => {
         if (responseData?.journal) {
           // console.log("data-", responseData);
-          outputList(responseData.journal, containerList);
+          outputList(responseData.journal, containerList, typeElement);
         } else {
           containerList.insertAdjacentHTML(
             "afterbegin",
             `<span class="msg-error">Ошибка !</span>`
           );
         }
-        showLoiading(containerList, "close");
+        showLoading(containerList, "close");
       })
       .catch((error) => {
-        showLoiading(containerList, "close");
+        showLoading(containerList, "close");
         containerList.insertAdjacentHTML(
           "afterbegin",
           `<span class="msg-error">Ошибка !</span>`

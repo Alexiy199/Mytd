@@ -8,22 +8,38 @@
 	<main class="main">
 		<section class="main__container-wrap container-wrap">
 			<div class="main__block-content">
-				<div class="main__content-item" data-listitem="custom-day">
+				<div class="main__content-item" id="item-1" data-listitem="custom-day">
 					<p class="main__title-item">Go to shop</p>
-					<p class="main__txt-item"></p>
+					<p class="main__txt-item">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique suscipit, rerum sint laboriosam numquam dolorem doloribus ullam id, explicabo fuga aliquid nobis maiores culpa tenetur distinctio, atque recusandae eaque ipsam?
+					Alias quisquam pariatur placeat ut dicta voluptatem commodi debitis incidunt totam aliquam recusandae repellendus fugit, ipsum veniam architecto harum beatae nostrum porro eveniet dolorum ratione, impedit, laudantium necessitatibus. Consequatur, perspiciatis.
+					Rerum similique fuga soluta beatae! Iure itaque ullam quibusdam voluptates vero dicta magni deleniti sit? Reiciendis amet voluptatem ut quisquam mollitia, cum libero vel quaerat neque, nisi rem eos at?
+					Dolore expedita perspiciatis quisquam eos explicabo non deleniti exercitationem aliquam inventore. In, ex praesentium nobis aspernatur atque voluptatibus cum odio, ratione similique commodi ipsum numquam, ullam harum soluta voluptas assumenda.
+					Alias debitis consequuntur fugit minima deleniti incidunt id. Sed vitae tenetur aut tempora architecto, doloribus iusto animi expedita rerum placeat ullam error cumque earum illum, qui repellat. Sequi, molestiae consectetur.
+					Corporis vel, inventore dolore error explicabo natus. Accusantium reiciendis officiis excepturi. Vitae aliquam ipsam ea distinctio qui! Nisi excepturi, at quod nulla eos tenetur, molestiae corporis quis voluptate officiis autem.
+					Cumque nam necessitatibus, odio facere eius non corrupti voluptate, ab possimus, consequuntur earum eaque. Adipisci molestiae ipsam voluptatum veritatis nam, velit a recusandae maxime vitae reprehenderit minus porro quam itaque!</p>
+					<div class="container-img-journal hidden">
+						<div class="column" id="column-1">
+							<img src="./img/user/no_avatar.png" alt="img" class="img-journal" id="img-j-1">
+							<img src="./img/user/photo.jpg" alt="img" class="img-journal" id="img-j-2">
+						</div>
+						<div class="column" id="column-2">
+							<img src="./img/mytd/nytd.png" alt="img" class="img-journal" id="img-j-3">
+						<!-- 	<img src="./img/mytd/qrmytd.png" alt="img" class="img-journal" id="img-j-4"> -->
+						</div>
+						</div>
 					<div class="box-burger">
 						<div class="burger"></div>
 						<div class="menu-brg">
 							<ul>
 								<li class="time_elem"> время </li>
-								<li class="later_elem"> <i class="_icon-later"></i> отложить </li>
-								<li class="done_elem"> <i class="_icon-done"></i> завершить </li>
-								<li class="del_elem"> <i class="_icon-delete"></i> удалить </li>
+								<li class="later_elem" id="later"> <i class="_icon-later"></i> отложить </li>
+								<li class="done_elem" id="done"> <i class="_icon-done"></i> завершить </li>
+								<li class="del_elem" id="delete"> <i class="_icon-delete"></i> удалить </li>
 							</ul>
 						</div>
 					</div>
 				</div>
-				<div class="main__content-item" data-listitem="every-day">
+				<div class="main__content-item" id="item-2" data-listitem="every-day">
 					<p class="main__title-item">Go to shop</p>
 					<p class="main__txt-item">
 						Lorem ipsum dolor sit amet...
@@ -36,13 +52,14 @@
 						<div class="menu-brg">
 							<ul>
 								<li class="time_elem"> время </li>
-								<li class="later_elem"> <i class="_icon-later"></i> отложить </li>
-								<li class="done_elem"> <i class="_icon-done"></i> завершить </li>
-								<li class="del_elem"> <i class="_icon-delete"></i> удалить </li>
+								<li class="later_elem" id="later"> <i class="_icon-later"></i> отложить </li>
+								<li class="done_elem" id="done"> <i class="_icon-done"></i> завершить </li>
+								<li class="del_elem" id="delete"> <i class="_icon-delete"></i> удалить </li>
 							</ul>
 						</div>
 					</div>
 				</div>
+				@@include('./html/eye.html')
 			</div>
 		</section>
 	</main>

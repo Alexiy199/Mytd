@@ -68,3 +68,27 @@ function closeMenu(event) {
 
   event.target.closest(".box-burger").classList.toggle("open");
 }
+
+// Mosaic of images
+
+export function imgMosaic(allImg, block) {
+  //console.log(allImg.innerHTML);
+  let count = 0;
+
+  /* const imagesJournal = allImg.getElementsByClassName("img-journal");
+  console.log(imagesJournal);
+
+  for (const img of imagesJournal) {
+    console.log(`Image ${++count} = width: ${img.width} height: ${img.height}`);
+
+    if (img.width > img.height) img.classList.add("vertical-img");
+    else img.classList.add("horizontal-img");
+  } */
+
+  block.insertAdjacentHTML(
+    "beforeend",
+    `<div class="container-img-journal">
+		${allImg.innerHTML}
+	</div>`
+  );
+}

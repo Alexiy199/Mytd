@@ -20,12 +20,13 @@ if (
   window.addEventListener("resize", () => resizeWindow());
 }
 
-// ==============  locale storage ===========
-// стандартные нвстрорйки
+// ==============  local storage ===========
+// стандартные настройки
 const defaultSettings = {
   notify: true,
   tlgNotify: false,
   theme: "light",
+  sound: false,
 };
 
 let currentSettings = JSON.parse(localStorage.getItem("settings"));
@@ -40,7 +41,7 @@ if (currentSettings === null) {
 //================ Entry (for index.html) ===================
 import * as entry from "./modules/entry.js"; //elements for entry
 import { sendRequest, sendForm } from "./modules/send.form.js"; //  send form  ajax
-import { showLoiading } from "./modules/show.loading.js";
+import { showLoading } from "./modules/show.loading.js";
 
 if (document.querySelector(".form-box__title") !== null) {
   // dark theme
@@ -69,7 +70,7 @@ if (document.querySelector(".form-box__title") !== null) {
     const msgErr = document.querySelector(".msg-error");
     if (msgErr !== null) msgErr.remove();
 
-    showLoiading(entry.entryForm[0], "show");
+    showLoading(entry.entryForm[0], "show");
 
     const formData = new FormData(entry.entryForm[0]);
 
@@ -81,18 +82,18 @@ if (document.querySelector(".form-box__title") !== null) {
             "https://www.alnik-portfolio.ru/mytd/?list=tasks"
           );
         } else if (data?.msgErr) {
-          showLoiading(entry.entryForm[0], "close");
+          showLoading(entry.entryForm[0], "close");
           entry.entryForm[0].insertAdjacentHTML(
             "afterend",
-            `<sapan class="msg-error">${data?.msgErr}</sapan>`
+            `<span class="msg-error">${data?.msgErr}</span>`
           );
         }
       })
       .catch((err) => {
-        showLoiading(entry.entryForm[0], "close");
+        showLoading(entry.entryForm[0], "close");
         entry.entryForm[0].insertAdjacentHTML(
           "afterend",
-          `<sapan class="msg-error">Ошибка !</sapan>`
+          `<span class="msg-error">Ошибка !</span>`
         );
         console.error(`упс ${err} `);
       });
@@ -105,7 +106,7 @@ if (document.querySelector(".form-box__title") !== null) {
     const msgErr = document.querySelector(".msg-error");
     if (msgErr !== null) msgErr.remove();
 
-    showLoiading(entry.regForm[0], "show");
+    showLoading(entry.regForm[0], "show");
 
     const formData = new FormData(entry.regForm[0]);
 
@@ -117,18 +118,18 @@ if (document.querySelector(".form-box__title") !== null) {
             "https://www.alnik-portfolio.ru/mytd/?list=tasks"
           );
         } else if (data?.msgErr) {
-          showLoiading(entry.regForm[0], "close");
+          showLoading(entry.regForm[0], "close");
           entry.regForm[0].insertAdjacentHTML(
             "afterend",
-            `<sapan class="msg-error">${data?.msgErr}</sapan>`
+            `<span class="msg-error">${data?.msgErr}</span>`
           );
         }
       })
       .catch((err) => {
-        showLoiading(entry.regForm[0], "close");
+        showLoading(entry.regForm[0], "close");
         entry.regForm[0].insertAdjacentHTML(
           "afterend",
-          `<sapan class="msg-error">Ошмбка !</sapan>`
+          `<span class="msg-error">Ошибка !</span>`
         );
         console.error(`упс ${err}`);
       });
@@ -144,7 +145,7 @@ const ms = dateTime.minSec("-"),
   fullDate = dateTime.dmy("-");
 //console.log(fullDate, hm, ms, `day ${dateTime.weekDay()}`);
 
-// подклюмение модулей
+// подключение модулей
 import * as navigationFooter from "./modules/navigation.js";
 import {
   PopUp,
@@ -157,6 +158,8 @@ import { getItemListPopUp } from "./modules/itemslist.js";
 import { addNewItem, switchForm, setTypeTask } from "./modules/additems.js";
 import { previewing, removeFile } from "./modules/previewing.js";
 import { outputList } from "./modules/output.list.js";
+import { Eye } from "./modules/eye/eye.js";
+import { deleteElement } from "./modules/delete.js";
 
 //==================== Main page ===============================================
 
@@ -172,10 +175,15 @@ if (mainPage !== null) {
 
   // для обрабдтки и визуального представления
   const listElements = document.getElementsByClassName("main__content-item"),
-    containerList = document.querySelector(".main__block-content");
+    containerList = document.querySelector(".main__block-content"),
+    containerWrap = document.querySelector(".main__container-wrap");
   //console.log(containerList.children);
 
-  // Тёиная тема при загрузке стр.
+  // Eye
+  const eye = new Eye(containerList, containerWrap);
+  eye.openEye();
+
+  // Тёмная тема при загрузке стр.
   if (currentSettings.theme === "dark") {
     for (let element of listElements) {
       element.classList.toggle("dark-list-elements");
@@ -186,8 +194,48 @@ if (mainPage !== null) {
 
   const itemListPopUp = new PopUp(itemListHtml); // title in create method
 
+  let idElementList = null; //
   incFunc.blockContent.addEventListener("click", (evt) => {
+    // ------ id element of list ---------
+    if (
+      evt.target.parentElement.className ==
+        "main__content-item dark-list-elements" ||
+      evt.target.parentElement.className == "main__content-item"
+    ) {
+      idElementList = evt.target.parentElement.id;
+      console.log("click brg", idElementList);
+    } else if (
+      evt.target.className == "main__content-item" ||
+      evt.target.className == "main__content-item dark-list-elements"
+    ) {
+      idElementList = evt.target.id;
+    } else if (
+      evt.target.className == "burger" ||
+      evt.target.className == "box-burger" ||
+      evt.target.className == "burger close-brg" ||
+      evt.target.className == "box-burger open"
+    ) {
+      idElementList = evt.target.parentElement.parentElement.id;
+      console.log("3 if = ", idElementList);
+    }
+    // ---------------------------------------
+
     incFunc.openBrgMenu(evt, currentSettings);
+
+    //-------------- delete element of list ------------------------
+    if (evt.target.id === "delete" || evt.target.id === "del-yes")
+      deleteElement(
+        evt,
+        incFunc.blockContent,
+        idElementList,
+        sendRequest,
+        currentList
+      );
+
+    // remove pop-up  'delete ?'
+    if (evt.target.id === "del-no")
+      incFunc.blockContent.querySelector("#del-pop-up")?.remove();
+    //-----------------------------------
 
     //-------------- list element (pop-up) | main -----------
     let typeTask = evt.target.dataset.listitem; // тип задачи
@@ -197,8 +245,15 @@ if (mainPage !== null) {
       evt.target.className === "main__content-item" ||
       evt.target.className === "main__content-item dark-list-elements"
     ) {
+      // находим необходимое содержимое в элементе списка
       let titleItemList =
-        evt.target.querySelector(".main__title-item")?.innerText;
+          evt.target.querySelector(".main__title-item")?.innerText,
+        imgJournal = evt.target.getElementsByClassName(
+          "container-img-journal hidden"
+        );
+
+      // Если найден блок с изображениями, то этот элемент из списка дневника.
+      if (imgJournal.length == 0) imgJournal = "";
 
       itemListPopUp
         .create(
@@ -208,14 +263,23 @@ if (mainPage !== null) {
         .then((data) => {
           let txtItem = evt.target.getElementsByClassName("main__txt-item")[0];
           // --- output to the popup txtItem
-          data
-            .querySelector("form")
-            .insertAdjacentHTML(
-              "afterbegin",
-              `<p ${txtItem?.innerText !== "" ? "" : "class='empty_txt' "}>${
-                txtItem?.innerText !== "" ? txtItem.innerText : "Без описания"
-              }</p>`
-            );
+          let form = data.querySelector("form");
+
+          // input hidden
+          const formCurrent = data.querySelector("#form-current"),
+            inpId = data.querySelector("#id-elem");
+          formCurrent.value = currentList;
+          inpId.value = idElementList;
+
+          form.insertAdjacentHTML(
+            "afterbegin",
+            `<p ${txtItem?.innerText !== "" ? "" : "class='empty_txt' "}>${
+              txtItem?.innerText !== "" ? txtItem.innerText : "Без описания"
+            }</p> <br> `
+          );
+
+          // View of images
+          if (imgJournal !== "") incFunc.imgMosaic(imgJournal[0], form);
 
           // вывод актуальных кнопок для окна элемента списка
           if (currentList !== "tasks") {
@@ -227,10 +291,38 @@ if (mainPage !== null) {
             });
           }
 
-          // прослушка собтитя - клик, окна элемента спискеа
-          data.addEventListener("click", (evtItem) =>
-            getItemListPopUp(evtItem, data, titleItemList, txtItem, typeTask)
-          );
+          // Empty txt remove
+          if (imgJournal !== "" && txtItem?.innerText === "")
+            data.querySelector(".empty_txt").remove();
+
+          // прослушка события - клик, окна элемента списка ==============
+          data.addEventListener("click", (evtItem) => {
+            getItemListPopUp(
+              evtItem,
+              data,
+              titleItemList,
+              txtItem,
+              typeTask,
+              deleteElement,
+              idElementList,
+              sendRequest,
+              currentList
+            );
+          });
+
+          // send update element of list
+          form.addEventListener("submit", (evtSubmit) => {
+            sendForm(
+              evtSubmit,
+              form,
+              "./ctrl/ctrl.php",
+              showLoading,
+              null, // outputList
+              containerList,
+              currentList
+            );
+          });
+          //------------
         });
     }
   });
@@ -257,7 +349,7 @@ if (mainPage !== null) {
       sendRequest,
       outputList,
       containerList,
-      showLoiading
+      showLoading
     );
   } else if (currentList === "journal") {
     navigationFooter.switchList(
@@ -268,7 +360,7 @@ if (mainPage !== null) {
       sendRequest,
       outputList,
       containerList,
-      showLoiading
+      showLoading
     );
   } else if (currentList === "target") {
     navigationFooter.footerMenu[0].children[2].classList.add("active-list");
@@ -292,7 +384,7 @@ if (mainPage !== null) {
         sendRequest,
         outputList,
         containerList,
-        showLoiading
+        showLoading
       );
     } else if (evt.target.dataset.add) {
       newItemPopUp.create("", currentSettings.theme).then((data) => {
@@ -311,7 +403,7 @@ if (mainPage !== null) {
                 evtChangePhoto,
                 data.children[0].children[1],
                 "img",
-                3,
+                4,
                 3_145_728
               )?.then((dataPreview) => {
                 dataPreview[1].addEventListener("click", (evtPreview) =>
@@ -322,7 +414,7 @@ if (mainPage !== null) {
           }
         });
 
-        // форма для отправкм. Текущая форма currentList (tasks | journal | targets)
+        // форма для отправки. Текущая форма currentList (tasks | journal | targets)
         const formAddItem = data.getElementsByTagName("form")[0];
 
         // отправка нового элемента списка
@@ -331,9 +423,10 @@ if (mainPage !== null) {
             evtSubmit,
             formAddItem,
             "./ctrl/ctrl.php",
-            showLoiading,
+            showLoading,
             outputList,
-            containerList
+            containerList,
+            currentList
           )
         );
 
@@ -355,6 +448,7 @@ if (mainPage !== null) {
           const inputNotify = data.querySelector("#check-notify"),
             settingElements = data.querySelectorAll(".setting-element"),
             inputTheme = data.querySelector("#dark-theme"),
+            inputSound = data.querySelector("#sound"),
             inputAvatar = data.querySelector("#inp-img-avatar"),
             boxPreview = data.querySelector("#block-photo-avatar"),
             settingsForm = data.querySelector(".settings-form");
@@ -372,8 +466,14 @@ if (mainPage !== null) {
           if (inputNotify.checked) {
             inputNotify.previousElementSibling.classList.add("active-check"); //active-check --> input checkbox | notify default true
           }
+          if (currentSettings.sound === true) {
+            inputSound.previousElementSibling.classList.add("active-check"); //active-check --> input checkbox | notify default true
 
-          // прослушка событитя - клик, окна настроек
+            inputSound.checked = true;
+            inputSound.previousElementSibling.classList.add("active-check");
+          }
+
+          // прослушка события - клик, окна настроек
           data.addEventListener("click", (evtSettings) =>
             setSettings(
               evtSettings,
@@ -381,7 +481,8 @@ if (mainPage !== null) {
               listElements,
               currentSettings,
               settingElements,
-              inputTheme
+              inputTheme,
+              inputSound
             )
           );
 
@@ -401,7 +502,7 @@ if (mainPage !== null) {
               evtSend,
               settingsForm,
               "./ctrl/ctrl.php",
-              showLoiading,
+              showLoading,
               null,
               null
             )

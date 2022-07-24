@@ -33,7 +33,7 @@ export const previewing = function (
       return alert(
         `Файл не должен превышать допустимый размер ${
           Math.floor((sizeFile / 1024 / 1024) * 100) / 100
-        } Иб`
+        } мб`
       );
     }
 
@@ -42,9 +42,9 @@ export const previewing = function (
     // валидация по типу и допустимому размеру файла
     switch (true) {
       case typeFile === "img":
-        if (!type.match(/image\/(jpg|jpeg|png|gif)/)) {
+        if (!type.match(/image\/(jpg|jpeg|png|gif|webp)/)) {
           boxPreview.remove();
-          return alert("Файлы должны быть формата jpg, jpeg, png, gif");
+          return alert("Файлы должны быть формата jpg, jpeg, png, gif, webp");
         }
         break;
       default:

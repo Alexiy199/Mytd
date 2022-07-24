@@ -15,7 +15,8 @@ export function setSettings(
   listElements,
   currentSettings,
   settingElements,
-  inputTheme
+  inputTheme,
+  inputSound
 ) {
   if (evt.target.dataset.popup === "close") {
     data.remove();
@@ -33,6 +34,7 @@ export function setSettings(
   } else if (evt.target.dataset.settings === "dark-theme") {
     currentElement = evt.target.closest("label").children[0];
     currentElement.classList.toggle("active-check");
+    //
     document.body.classList.toggle("dark-body");
     data.children[0].classList.toggle("dark");
 
@@ -49,11 +51,22 @@ export function setSettings(
     } else {
       currentSettings.theme = "light";
     }
+  } else if (evt.target.dataset.settings === "sound") {
+    currentElement = evt.target.closest("label").children[0];
+    currentElement.classList.toggle("active-check");
+    // allow sounds
+    let sound = new Audio();
+    sound.src = "./files/sounds/notify.wav";
 
-    localStorage.setItem("settings", JSON.stringify(currentSettings));
+    if (inputSound.checked) {
+      sound.play();
+      currentSettings.sound = true;
+    } else {
+      currentSettings.sound = false;
+    }
   }
 
-  console.log(evt);
+  localStorage.setItem("settings", JSON.stringify(currentSettings));
 
   return;
 }

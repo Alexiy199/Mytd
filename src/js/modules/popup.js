@@ -73,6 +73,14 @@ export const settingsHtml = `
   					<input type="checkbox" id="dark-theme" data-settings="dark-theme">
 				  </label>
 	 		 </div>
+
+			  <div class="setting-element">
+			  <label for="sound">
+				  <span class="label-txt"> Звуки </span>
+				  <input type="checkbox" id="sound" data-settings="sound">
+			  </label>
+		  </div>
+
 			  <div class="setting-element" id="block-photo-avatar">
 					<label for="inp-img-avatar" class="label-file">Фото профиля</label>
 					<input type="file"  id="inp-img-avatar" name="img_avatar" accept="image/,.jpg,.jpeg,.gif,.png" class="input-file" data-settings="inp-avatar">
@@ -86,16 +94,19 @@ export const settingsHtml = `
 export const itemListHtml = `
 		<form action="#" class="item-list-form">
 			<input type="text" name="title_popup" class="input-edit hidden"  maxlength="32" placeholder="нзвание"> <br> <br>
-			<textarea  name="discription_popup" class="input-edit hidden" maxlength="600" placeholder="описание" rows="5" cols="35"></textarea> <br> <br>
+			<textarea  name="description_popup" class="input-edit hidden" maxlength="600" placeholder="описание" rows="5" cols="35"></textarea> <br> <br>
+
+			<input type="hidden" id="form-current" name="form_of">
+			<input type="hidden" id="id-elem" name="id_elem">
 			
 			<input type="date" class="input-date hidden"> 
 			<input type="time" class="input-date hidden"> 
 			<div class="box-btn-item-popup">
-				<button class="btn" id="edit"> изменить </button> 
-				<button class="btn" id="put-aside"> отложить </button>
-				<button class="btn" id="complete"> завершить </button>
-				<button type="submit" class="btn hidden " id="save-edit" disabled> сохранить </button>
-				<button class="btn" id="delete"> удалить </button>
+				<button type="button" class="btn" id="edit"> изменить </button> 
+				<button type="button" class="btn" id="put-aside"> отложить </button>
+				<button type="button" class="btn" id="complete"> завершить </button>
+				<button type="submit" class="btn hidden " id="save-edit"> сохранить </button>
+				<button type="button" class="btn" id="delete"> удалить </button>
 			</div>
 		</form>
 `;
